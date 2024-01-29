@@ -1,5 +1,6 @@
-import 'package:final_atoz/home_screen.dart';
-import 'package:final_atoz/services/auth/login_register.dart';
+import 'package:finalatoz/home_screen.dart';
+import 'package:finalatoz/main.dart';
+import 'package:finalatoz/services/auth/login_register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class AuthGate extends StatelessWidget {
         builder: (context, snapshot) {
           //user logged in
           if (snapshot.hasData) {
-            return HomeScreen();
+            return MainScreen();
           }
 
           //user not logged in

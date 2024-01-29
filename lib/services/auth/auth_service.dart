@@ -9,6 +9,9 @@ class AuthService extends ChangeNotifier {
   //instance of firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // Getter for FirebaseAuth instance
+  FirebaseAuth get firebaseAuth => _firebaseAuth;
+
   // sign in
   Future<UserCredential> signInWithEmailAndPassword(
       String email, String password) async {
@@ -53,5 +56,23 @@ class AuthService extends ChangeNotifier {
   // sign out
   Future<void> signOut() async {
     return await _firebaseAuth.signOut();
+  }
+
+// Store additional information in Firestore
+  Future<void> storeAdditionalUserInfo(
+    String? uid,
+    String restaurantName,
+    String address,
+    String contact,
+  ) async {
+    try {
+      await _firestore.collection('restaurants').doc(uid).set({
+        'restaurantName': restaurantName,
+        'address': address,
+        'contact': contact,
+      });
+    } catch (e) {
+      throw Exception('Error storing additional user info: $e');
+    }
   }
 }
