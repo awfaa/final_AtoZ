@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const Text(
-              'Latest Food Items:',
+              'Available Food:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
