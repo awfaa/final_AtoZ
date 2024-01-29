@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -30,10 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Restaurant Info'),
+        title: const Text('Restaurant Info'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () {
               signOut();
             },
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   .get(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
 
                 if (snapshot.hasError) {
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (!snapshot.hasData ||
                     snapshot.data == null ||
                     !snapshot.data!.exists) {
-                  return Text('No restaurant information found.');
+                  return const Text('No restaurant information found.');
                 }
 
                 var restaurantData =
@@ -71,31 +71,120 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${restaurantData['restaurantName']}',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${restaurantData['restaurantName']}',
+                              style: const TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                const Icon(Icons.location_on),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${restaurantData['address']}',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.phone),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${restaurantData['contact']}',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Address: ${restaurantData['address']}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Contact: ${restaurantData['contact']}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 );
               },
             ),
-            Text(
+            const Text(
               'Latest Food Items:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            // Display the latest food items here
-            // ...
+            const SizedBox(height: 16),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('foods')
+                  .orderBy('timestamp', descending: true)
+                  .limit(3)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+
+                if (!snapshot.hasData || snapshot.data == null) {
+                  return const Text('No food items found.');
+                }
+
+                var foodItems = snapshot.data!.docs;
+
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: foodItems.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.75,
+                  ),
+                  itemBuilder: (context, index) {
+                    var foodItem =
+                        foodItems[index].data() as Map<String, dynamic>;
+                    return Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.network(
+                            foodItem['imageUrl'],
+                            fit: BoxFit.cover,
+                            height: 120,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              foodItem['name'],
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              '\$${foodItem['price'].toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),

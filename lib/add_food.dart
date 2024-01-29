@@ -190,12 +190,18 @@ class _AddScreenState extends State<AddScreen> {
                       _pickImage();
                     },
                     child: const Text('Pick Image'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue[200],
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       _takePicture();
                     },
                     child: const Text('Take Picture'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue[200],
+                    ),
                   ),
                 ],
               ),
@@ -262,6 +268,9 @@ class _AddScreenState extends State<AddScreen> {
                   _addFoodToDatabase();
                 },
                 child: const Text('Add Food'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue[200],
+                ),
               ),
             ],
           ),

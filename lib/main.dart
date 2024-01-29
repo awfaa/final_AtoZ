@@ -26,7 +26,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthGate(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Surplus Food Management',
+            style: TextStyle(
+              fontSize: 20, // Change the font size to 20
+              fontWeight: FontWeight.bold, // Make the text bold
+            ),
+          ),
+          backgroundColor: Colors
+              .lightBlue[200], // Set the background color to light turquoise
+        ),
+        body: AuthGate(),
+      ),
     );
   }
 }
@@ -60,6 +73,8 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
+        selectedItemColor: Colors
+            .lightBlue[200], // Set the selected item color to light turquoise
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

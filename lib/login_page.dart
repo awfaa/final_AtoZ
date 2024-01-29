@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
 
             // welcome
             const Text(
-              "Welcome to Food Waste Manager",
+              "Welcome to Surplus Food Manager!",
               style: TextStyle(
                 fontSize: 16,
               ),
