@@ -31,12 +31,11 @@ class MyApp extends StatelessWidget {
           title: Text(
             'Surplus Food Management',
             style: TextStyle(
-              fontSize: 20, // Change the font size to 20
-              fontWeight: FontWeight.bold, // Make the text bold
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          backgroundColor: Colors
-              .lightBlue[200], // Set the background color to light turquoise
+          backgroundColor: Colors.lightBlue[200],
         ),
         body: AuthGate(),
       ),
@@ -73,8 +72,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
-        selectedItemColor: Colors
-            .lightBlue[200], // Set the selected item color to light turquoise
+        selectedItemColor: Colors.lightBlue[200],
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

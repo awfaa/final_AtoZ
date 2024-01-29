@@ -103,18 +103,23 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: true,
             ),
 
+            //restaurant name
             const SizedBox(height: 10),
             MyTextField(
               controller: restaurantNameController,
               hintText: 'Restaurant Name',
               obscureText: false,
             ),
+
+            //address
             const SizedBox(height: 10),
             MyTextField(
               controller: addressController,
               hintText: 'Address',
               obscureText: false,
             ),
+
+            //contact number
             const SizedBox(height: 10),
             MyTextField(
               controller: contactController,

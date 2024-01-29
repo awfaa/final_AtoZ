@@ -25,10 +25,11 @@ class _ListScreenState extends State<ListScreen> {
     }
   }
 
+// Get the food items from Firestore
   Stream<List<Map<String, dynamic>>> _getFoodItems(String userId) {
     return FirebaseFirestore.instance
         .collection('restaurants')
-        .doc(userId) // Use the user's uid as the restaurant identifier
+        .doc(userId)
         .collection('foods')
         .snapshots()
         .map((snapshot) {
@@ -44,6 +45,7 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
+// Build the list of food items
   Widget _buildFoodList(List<Map<String, dynamic>> foodItems) {
     foodItems.sort((a, b) => b['docId'].compareTo(a['docId']));
     return ListView.builder(

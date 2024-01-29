@@ -123,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+// displaying list of food items that are available to be taken
 class LatestNotTakenFoodList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
