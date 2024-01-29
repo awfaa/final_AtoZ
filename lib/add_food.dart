@@ -133,11 +133,33 @@ class _AddScreenState extends State<AddScreen> {
           'taken': false,
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Food added to database successfully'),
-          ),
+        // Show a dialog
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Success'),
+              content: Text('Food added to database successfully'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
+
+        // Reset the form
+        _foodNameController.clear();
+        _quantityController.clear();
+        setState(() {
+          _selectedCategory = 'Malay';
+          _selectedDietaryRestriction = 'None';
+          _pickedImage = null;
+        });
       }
     } catch (e) {
       print('Error adding food to database: $e');

@@ -82,11 +82,11 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Add',
+            label: 'Add Food',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: 'List',
+            label: 'Food List',
           ),
         ],
       ),
