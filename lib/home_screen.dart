@@ -198,12 +198,6 @@ class LatestNotTakenFoodList extends StatelessWidget {
                     'Dietary Restriction: ${foodItems[index]['dietaryRestriction']}'),
               ],
             ),
-            trailing: ElevatedButton(
-              onPressed: () {
-                _markFoodAsTaken(foodItems[index]['docId']);
-              },
-              child: Text(foodItems[index]['taken'] ? 'Taken' : 'Not Taken'),
-            ),
           ),
         );
       },
