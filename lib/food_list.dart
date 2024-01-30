@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
 class ListScreen extends StatefulWidget {
   @override
   _ListScreenState createState() => _ListScreenState();
@@ -9,10 +10,12 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   late Stream<List<Map<String, dynamic>>> foodStream;
+  late TextEditingController _searchController;
 
   @override
   void initState() {
     super.initState();
+    _searchController = TextEditingController();
     // Initialize the stream to listen for changes in the Firestore collection
     final currentUser = FirebaseAuth.instance.currentUser;
 
@@ -25,11 +28,10 @@ class _ListScreenState extends State<ListScreen> {
     }
   }
 
-// Get the food items from Firestore
   Stream<List<Map<String, dynamic>>> _getFoodItems(String userId) {
     return FirebaseFirestore.instance
         .collection('restaurants')
-        .doc(userId)
+        .doc(userId) // Use the user's uid as the restaurant identifier
         .collection('foods')
         .snapshots()
         .map((snapshot) {
@@ -45,45 +47,73 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
-// Build the list of food items
   Widget _buildFoodList(List<Map<String, dynamic>> foodItems) {
     foodItems.sort((a, b) => b['docId'].compareTo(a['docId']));
-    return ListView.builder(
-      itemCount: foodItems.length,
-      itemBuilder: (context, index) {
-        return Card(
-          margin: EdgeInsets.all(8.0),
-          child: ListTile(
-            leading: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: NetworkImage(foodItems[index]['imagePath']),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            title: Text(foodItems[index]['foodName']),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Quantity: ${foodItems[index]['quantity']}'),
-                Text('Category: ${foodItems[index]['category']}'),
-                Text(
-                    'Dietary Restriction: ${foodItems[index]['dietaryRestriction']}'),
-              ],
-            ),
-            trailing: ElevatedButton(
-              onPressed: () {
-                _markFoodAsTaken(foodItems[index]['docId']);
-              },
-              child: Text(foodItems[index]['taken'] ? 'Taken' : 'Not Taken'),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _searchController,
+            onChanged: (value) {
+              // Call setState to rebuild the widget with updated search results
+              setState(() {});
+            },
+            decoration: InputDecoration(
+              hintText: 'Search Food',
+              prefixIcon: Icon(Icons.search),
             ),
           ),
-        );
-      },
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: foodItems.length,
+            itemBuilder: (context, index) {
+              // Check if the search term is empty or matches any part of the food name
+              bool isMatch = _searchController.text.isEmpty ||
+                  foodItems[index]['foodName']
+                      .toLowerCase()
+                      .contains(_searchController.text.toLowerCase());
+
+              return isMatch
+                  ? Card(
+                      margin: EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: NetworkImage(foodItems[index]['imagePath']),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        title: Text(foodItems[index]['foodName']),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Quantity: ${foodItems[index]['quantity']}'),
+                            Text('Category: ${foodItems[index]['category']}'),
+                            Text(
+                                'Dietary Restriction: ${foodItems[index]['dietaryRestriction']}'),
+                          ],
+                        ),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            _markFoodAsTaken(foodItems[index]['docId']);
+                          },
+                          child: Text(
+                              foodItems[index]['taken'] ? 'Taken' : 'Not Taken'),
+                        ),
+                      ),
+                    )
+                  : Container(); // Return an empty container if not a match
+            },
+          ),
+        ),
+      ],
     );
   }
 
