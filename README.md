@@ -7,8 +7,25 @@ Final Assessment project for INFO 4335 MOBILE APPLICATION DEVELOPMENT
 3. Najiha binti Abdul Khaidir (1912042)
 
 # Task For Team Members
-1.  Awfa - 
+1.  Awfa
+   - Initialize flutter project
+   - Add 'Add Food' page with camera function
+   - Edit Home Screen to showbrief restaurant information
+   - Add 'Available Food List' on home screen
 
+2. Izzaty
+   - Sequence Diagram
+   - Connect Firebase to project
+   - Add register and login page
+   - Fix 'Add Food' page to store data and image properly
+  
+3. Najiha
+   - Flowchart
+   - Add Home Screen and and Bottom Navigation Bar
+   - Add Food List View
+   - Add Restaurant List in Home Screen
+
+---
 # Proposal 
 
 ##  Surplus Food Management app
@@ -28,6 +45,11 @@ The app will connect restaurants and supermarkets with surplus food to users who
 - Restaurants can search for specific food items within the surplus food list, facilitating quick and efficient surplus food management.
 - Each food item displays its status (taken or untaken), helping restaurants keep track of the availability of surplus food.
 - The app dynamically displays the list of surplus food items, making it easy for users to view and manage the available items.
+---
+## Navigation and UI Components 
+
+![Navigation and UI Components SFM drawio](https://github.com/awfaa/final_atoz/assets/134517513/ed15f244-930a-4b75-b754-9a05da99fd5b)
+
 ---
 ## Sequence Diagram 
 
@@ -58,6 +80,8 @@ The app will connect restaurants and supermarkets with surplus food to users who
   * cloud_firestore | Flutter Package. (n.d.). Dart Packages. <https://pub.dev/packages/cloud_firestore>
   * provider | Flutter Package. (n.d.). Dart Packages. <https://pub.dev/packages/provider>
   * path_provider | Flutter Package. (n.d.). Dart Packages. <https://pub.dev/packages/path_provider>
+  * Arora, P. (2022, May 28). PriyanshuArora2001/AAHAR-APP. GitHub. <https://github.com/PriyanshuArora2001/AAHAR-APP>
+  * Sindhu, M. (2024, January 28). mansisindhu/seva-the-food-sharing-app. GitHub. <https://github.com/mansisindhu/seva-the-food-sharing-app>
 
 ‌
 
